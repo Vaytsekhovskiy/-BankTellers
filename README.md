@@ -39,13 +39,13 @@
 
   ![Изображение выглядит как текст, Шрифт, снимок экрана
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.001.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.001.png)
 
 - Класс Cashier: расширяет Thread и представляет собой поведение кассира. 
 
 ![Изображение выглядит как текст, снимок экрана, дисплей, программное обеспечение
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.002.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.002.png)
 
 Кассир работает до тех пор, пока работает Thread WorkingDay, т.е. пока не закончится рабочий день. Внутри метода run(), кассир следит за временем, после 12 часов кассир имеет право уйти на обед на 1 час времени. В рабочее время кассир обслуживает клиента, «доставая» его из очереди clients, затраченное время и заработанные деньги зависят от услуги клиента. После того, как клиент был обслужен, к дневной выручке добавляется комиссия только что обслуженного клиента.
 
@@ -55,7 +55,7 @@
 
 ![Изображение выглядит как текст, снимок экрана, программное обеспечение
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.003.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.003.png)
 
 WorkingDay является отдельной нитью и считает рабочее время. Рабочий день начинается с 9 утра и заканчивается в 18 вечера, чтобы ускорить симуляцию было принято решение взять следующее соотношение времени симуляции и реального времени:
 
@@ -65,7 +65,7 @@ WorkingDay является отдельной нитью и считает ра
 
 ![Изображение выглядит как текст, снимок экрана, программное обеспечение, Шрифт
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.004.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.004.png)
 
 Для каждой услуги была установлена комиссия банка и время его выполнения. Например, услуга MAKING\_LOAN (оформление кредита) принесёт комиссию в размере 5000 рублей и на эту услугу будет затрачиваться 1,5 часа времени симуляции.
 
@@ -73,7 +73,7 @@ WorkingDay является отдельной нитью и считает ра
 
 ![Изображение выглядит как текст, снимок экрана, программное обеспечение
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.005.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.005.png)
 
 Данный метод работает в отдельном потоке. Каждому клиенту присваивается порядковый номер и случайная требуемая услуга. После создания экземпляра класса Client, экземпляр помещается в потокобезопасную очередь (ArrayBlockingQueue) clients.
 
@@ -81,7 +81,7 @@ WorkingDay является отдельной нитью и считает ра
 
 ![Изображение выглядит как текст, снимок экрана
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.006.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.006.png)
 
 Данный метод работает в отдельном потоке. Внутри метода находится цикл, который генерирует некоторое количество кассиров, в зависимости от шага цикла. Таким образом, такая реализация генерации кассиров позволит увидеть принцип работы в однопоточном (1 кассир) и многопоточном режиме (>1 кассира), а также позволит выбрать наилучшее количество кассиров для получения максимальной прибыли. Перед началом новой итерации цикла for начинается новый рабочий день (запускается нить WorkingDay) и создаётся новая очередь (очищается старая очередь и пересоздаётся нить GetClientsGenerator()). В конце дня выводится дневная выручка, дневная прибыль (дневная выручка – зарплата кассиров) и количество обслуженных клиентов. 
 
@@ -94,41 +94,41 @@ WorkingDay является отдельной нитью и считает ра
 
 1. Результаты симуляции для 1 кассира
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.007.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.007.png)
 
 1. Результаты симуляции для 2-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.008.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.008.png)
 
 1. Результаты работы для 3-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.009.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.009.png)
 
 1. Результаты работы для 4-х кассиров
 
 ![Изображение выглядит как снимок экрана, текст, Шрифт, линия
 
-Автоматически созданное описание](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.010.png)
+Автоматически созданное описание](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.010.png)
 
 1. Результаты работы для 5-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.011.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.011.png)
 
 1. Результаты работы для 6-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.012.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.012.png)
 
 1. Результаты работы для 7-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.013.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.013.png)
 
 1. Результаты работы для 8-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.014.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.014.png)
 
 1. Результаты работы для 9-х кассиров
 
-![](Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.015.png)
+![](images\Aspose.Words.4e07e67c-938b-4328-a584-eff58e97dee1.015.png)
 
 `	`Из предложенных результатов работы можно сделать некоторые выводы для максимизации прибыли. 1, 2, 3 кассира, вышедших на работу будет недостаточно, т. к. такое количество кассиров не успевает обслужить дневной поток клиентов (по результатам тестирования видно, что средний дневной поток клиентов составляет 27–30  человек). 4–6 кассира, являются оптимальным решением задачи. Такое количество кассиров, позволяет обслужить весь дневной поток, при этом, дневные расходы, также остаются небольшими из-за небольшого количества кассиров, что приводит к максимальной прибиыли. 7–9  кассиров являются в среднем избыточным решением, т. к. они успевают обслужить весь дневной поток, при этом, дневная прибыль становиться меньше, по сравнению с 4–6  кассирами, т. к. увеличиваются дневные расходы вследствие большего числа кассиров.  
 
@@ -195,10 +195,10 @@ public class Bank {
                     case 3 -> ServiceType.*CURRENCY\_EXCHANGE*;
                     default -> throw new IllegalStateException("Unexpected value");
                 };
-                *clients*.offer(new Client(order.getAndIncrement(), serviceType));
+                clients.offer(new Client(order.getAndIncrement(), serviceType));
                 try {
-                    `Thread.*sleep*((int) (Math.*random*() \*
-                            WorkingDay.*getHalfAnHourDurationToMills*()) + 200);
+                    Thread.sleep((int) (Math.random() *
+                            WorkingDay.getHalfAnHourDurationToMills*()) + 200);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -209,33 +209,33 @@ public class Bank {
 
     static class Cashier extends Thread {
         boolean isRested;
-        static int *dailySalary* = 3000;
+        static int dailySalary = 3000;
         @Override
         public void run() {
-            while (*workingDay*.isAlive()) {
-                if (!isRested && *workingDay*.getCurrentTime().isAfter(LocalTime.*of*(12,0))) {
+            while (workingDay.isAlive()) {
+                if (!isRested && workingDay.getCurrentTime().isAfter(LocalTime.of(12,0))) {
                     isRested = true;
-                    System.*out*.println(this.getName() + " Ушёл на обед на 1 час");
+                    System.out.println(this.getName() + " Ушёл на обед на 1 час");
                     try {
-                        Thread.*sleep*(2L \* WorkingDay.*getHalfAnHourDurationToMills*());
+                        Thread.sleep*(2L * WorkingDay.getHalfAnHourDurationToMills());
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
                 Client client;
                 try {
-                    client = *clients*.poll(5, TimeUnit.*SECONDS*);
-                    System.*out*.printf("%s Обслуживает клиента №%d. Тип услуги: %s\n",
+                    client = clients.poll(5, TimeUnit.SECONDS);
+                    System.out.printf("%s Обслуживает клиента №%d. Тип услуги: %s\n",
                             this.getName(), client.order(), client.serviceType().name());
                     try {
-                        Thread.*sleep*(client.serviceType().getDuration());
-                        *dailyRevenue* += client.serviceType().getPrice();
-                        *dailyClientsServed*++;
+                        Thread.sleep(client.serviceType().getDuration());
+                        dailyRevenue += client.serviceType().getPrice();
+                        dailyClientsServed++;
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    System.*out*.println(this.getName() + " Обслужил клиента №" + client.order());
-                } catch (Throwable \_) {
+                    System.out.println(this.getName() + " Обслужил клиента №" + client.order());
+                } catch (Throwable _) {
                 }
             }
         }
@@ -254,9 +254,9 @@ public record Client(
 ```java
 public enum ServiceType {
 
-    *MAKING\_LOAN*(5\_000, WorkingDay.*getHalfAnHourDurationToMills*() \* 3),
-    *CREDIT\_CARD*(1000, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 2.5)),
-    *CURRENCY\_EXCHANGE*(100, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 1.3));
+    MAKING_LOAN(5_000, WorkingDay.getHalfAnHourDurationToMills() * 3),
+    CREDIT_CARD(1000, (int) (WorkingDay.getHalfAnHourDurationToMills*() * 2.5)),
+    CURRENCY_EXCHANGE(100, (int) (WorkingDay.getHalfAnHourDurationToMills*() * 1.3));
 
     private final int price;
     private final int duration;
@@ -278,28 +278,28 @@ public enum ServiceType {
 import java.time.LocalTime;
 public class WorkingDay extends Thread{
     // 30 минут симуляции = 1 секунда
-    private static final int *halfAnHourDurationToMills* = 1000;
-    private static LocalTime *currentTime*;
+    private static final int halfAnHourDurationToMills = 1000;
+    private static LocalTime currentTime;
     @Override
     public void run() {
-        *currentTime* = LocalTime.*of*(9,0);
-        while(*currentTime*.isBefore(LocalTime.*of*(18,0))) {
+        currentTime = LocalTime.of(9,0);
+        while(currentTime.isBefore(LocalTime.of(18,0))) {
             try {
-                Thread.*sleep*(*halfAnHourDurationToMills*);
-                *currentTime* = *currentTime*.plusMinutes(30);
+                Thread.sleep*(halfAnHourDurationToMills);
+                currentTime = currentTime.plusMinutes(30);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
         }
-        System.*out*.println("Рабочий день закончен!");
+        System.out.println("Рабочий день закончен!");
     }
     public LocalTime getCurrentTime() {
-        return *currentTime*;
+        return currentTime;
     }
 
     public static int getHalfAnHourDurationToMills() {
-        return *halfAnHourDurationToMills*;
+        return halfAnHourDurationToMills;
     }
 }
 ```
