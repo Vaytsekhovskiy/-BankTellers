@@ -147,106 +147,106 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Bank {
-`    `private final static ArrayBlockingQueue<Client> *clients* = new ArrayBlockingQueue<>(40);
-`    `private static WorkingDay *workingDay*;
-`    `private static Integer *dailyRevenue*;
-`    `private static Integer *dailyClientsServed* ;
-`    `public static void main(String[] args) {
-`        `long startWorking = System.*currentTimeMillis*();
-`        `for (int i = 1 ; i < 10 ; i++) {
-`            `*dailyRevenue* = 0;
-`            `*dailyClientsServed* = 0;
-`            `*clients*.clear();
-`            `*workingDay* = new WorkingDay();
-`            `*workingDay*.start();
-`            `*clients*.clear();
-`            `*GetClientGenerator*().start();
-`            `System.*out*.println("Количество кассиров, которые выйдут на работу: "+ i);
-`            `Cashier[] cashiers = new Cashier[i];
-`            `System.*out*.println("Начало рабочего дня");
-`            `for (int j = 0; j < i; j++) {
-`                `cashiers[j] = new Cashier();
-`                `cashiers[j].setName("Кассир №" + (j + 1));
-`                `System.*out*.println(cashiers[j].getName() + " Вышел на работу");
-`                `cashiers[j].start();
-`            `}
-`            `Arrays.*stream*(cashiers).forEach(cashier -> {
-`                `try {
-`                    `cashier.join();
-`                `} catch (InterruptedException e) {
-`                    `throw new RuntimeException(e);
-`                `}
-`            `});
-`            `System.*out*.println("------------------------------------------------------------");
-`            `System.*out*.printf("Суммарная выручка: %d, Суммарная прибыль: %d, Клиентов обслужено: %d \n",
-`                    `*dailyRevenue*, *dailyRevenue* - i \* Cashier.*dailySalary*, *dailyClientsServed*);
-`            `System.*out*.println("------------------------------------------------------------");
-`        `}
-`        `System.*out*.println("Конец программы: " + (System.*currentTimeMillis*() - startWorking));
-`    `}
+    private final static ArrayBlockingQueue<Client> *clients* = new ArrayBlockingQueue<>(40);
+    private static WorkingDay *workingDay*;
+    private static Integer *dailyRevenue*;
+    private static Integer *dailyClientsServed* ;
+    public static void main(String[] args) {
+        long startWorking = System.*currentTimeMillis*();
+        for (int i = 1 ; i < 10 ; i++) {
+            *dailyRevenue* = 0;
+            *dailyClientsServed* = 0;
+            *clients*.clear();
+            *workingDay* = new WorkingDay();
+            *workingDay*.start();
+            *clients*.clear();
+            *GetClientGenerator*().start();
+            System.*out*.println("Количество кассиров, которые выйдут на работу: "+ i);
+            Cashier[] cashiers = new Cashier[i];
+            System.*out*.println("Начало рабочего дня");
+            for (int j = 0; j < i; j++) {
+                cashiers[j] = new Cashier();
+                cashiers[j].setName("Кассир №" + (j + 1));
+                System.*out*.println(cashiers[j].getName() + " Вышел на работу");
+                cashiers[j].start();
+            }
+            Arrays.*stream*(cashiers).forEach(cashier -> {
+                try {
+                    cashier.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            System.*out*.println("------------------------------------------------------------");
+            System.*out*.printf("Суммарная выручка: %d, Суммарная прибыль: %d, Клиентов обслужено: %d \n",
+                    `*dailyRevenue*, *dailyRevenue* - i \* Cashier.*dailySalary*, *dailyClientsServed*);
+            System.*out*.println("------------------------------------------------------------");
+        }
+        System.*out*.println("Конец программы: " + (System.*currentTimeMillis*() - startWorking));
+    }
 
-`    `private static Thread GetClientGenerator() {
-`        `AtomicInteger order = new AtomicInteger(1);
-`        `Thread thread = new Thread(() -> {
-`            `while (*workingDay*.isAlive()) {
-`                `ServiceType serviceType = switch ((int) (Math.*random*() \* 3) + 1) {
-`                    `case 1 -> ServiceType.*MAKING\_LOAN*;
-`                    `case 2 -> ServiceType.*CREDIT\_CARD*;
-`                    `case 3 -> ServiceType.*CURRENCY\_EXCHANGE*;
-`                    `default -> throw new IllegalStateException("Unexpected value");
-`                `};
-`                `*clients*.offer(new Client(order.getAndIncrement(), serviceType));
-`                `try {
-`                    `Thread.*sleep*((int) (Math.*random*() \*
-`                            `WorkingDay.*getHalfAnHourDurationToMills*()) + 200);
-`                `} catch (InterruptedException e) {
-`                    `throw new RuntimeException(e);
-`                `}
-`            `}
-`        `});
-`        `return thread;
-`    `}
+    private static Thread GetClientGenerator() {
+        AtomicInteger order = new AtomicInteger(1);
+        Thread thread = new Thread(() -> {
+            while (*workingDay*.isAlive()) {
+                ServiceType serviceType = switch ((int) (Math.*random*() \* 3) + 1) {
+                    case 1 -> ServiceType.*MAKING\_LOAN*;
+                    case 2 -> ServiceType.*CREDIT\_CARD*;
+                    case 3 -> ServiceType.*CURRENCY\_EXCHANGE*;
+                    default -> throw new IllegalStateException("Unexpected value");
+                };
+                *clients*.offer(new Client(order.getAndIncrement(), serviceType));
+                try {
+                    `Thread.*sleep*((int) (Math.*random*() \*
+                            WorkingDay.*getHalfAnHourDurationToMills*()) + 200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        return thread;
+    }
 
-`    `static class Cashier extends Thread {
-`        `boolean isRested;
-`        `static int *dailySalary* = 3000;
-`        `@Override
-`        `public void run() {
-`            `while (*workingDay*.isAlive()) {
-`                `if (!isRested && *workingDay*.getCurrentTime().isAfter(LocalTime.*of*(12,0))) {
-`                    `isRested = true;
-`                    `System.*out*.println(this.getName() + " Ушёл на обед на 1 час");
-`                    `try {
-`                        `Thread.*sleep*(2L \* WorkingDay.*getHalfAnHourDurationToMills*());
-`                    `} catch (InterruptedException e) {
-`                        `throw new RuntimeException(e);
-`                    `}
-`                `}
-`                `Client client;
-`                `try {
-`                    `client = *clients*.poll(5, TimeUnit.*SECONDS*);
-`                    `System.*out*.printf("%s Обслуживает клиента №%d. Тип услуги: %s\n",
-`                            `this.getName(), client.order(), client.serviceType().name());
-`                    `try {
-`                        `Thread.*sleep*(client.serviceType().getDuration());
-`                        `*dailyRevenue* += client.serviceType().getPrice();
-`                        `*dailyClientsServed*++;
-`                    `} catch (InterruptedException e) {
-`                        `throw new RuntimeException(e);
-`                    `}
-`                    `System.*out*.println(this.getName() + " Обслужил клиента №" + client.order());
-`                `} catch (Throwable \_) {
-`                `}
-`            `}
-`        `}
-`    `}
+    static class Cashier extends Thread {
+        boolean isRested;
+        static int *dailySalary* = 3000;
+        @Override
+        public void run() {
+            while (*workingDay*.isAlive()) {
+                if (!isRested && *workingDay*.getCurrentTime().isAfter(LocalTime.*of*(12,0))) {
+                    isRested = true;
+                    System.*out*.println(this.getName() + " Ушёл на обед на 1 час");
+                    try {
+                        Thread.*sleep*(2L \* WorkingDay.*getHalfAnHourDurationToMills*());
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                Client client;
+                try {
+                    client = *clients*.poll(5, TimeUnit.*SECONDS*);
+                    System.*out*.printf("%s Обслуживает клиента №%d. Тип услуги: %s\n",
+                            this.getName(), client.order(), client.serviceType().name());
+                    try {
+                        Thread.*sleep*(client.serviceType().getDuration());
+                        *dailyRevenue* += client.serviceType().getPrice();
+                        *dailyClientsServed*++;
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.*out*.println(this.getName() + " Обслужил клиента №" + client.order());
+                } catch (Throwable \_) {
+                }
+            }
+        }
+    }
 }
 ```
 Класс Clinet:
 ```java
 public record Client(
-`        `int order,
-`        `ServiceType serviceType
+        int order,
+        ServiceType serviceType
 ) {
 }
 ```
@@ -254,52 +254,52 @@ public record Client(
 ```java
 public enum ServiceType {
 
-`    `*MAKING\_LOAN*(5\_000, WorkingDay.*getHalfAnHourDurationToMills*() \* 3),
-`    `*CREDIT\_CARD*(1000, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 2.5)),
-`    `*CURRENCY\_EXCHANGE*(100, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 1.3));
+    *MAKING\_LOAN*(5\_000, WorkingDay.*getHalfAnHourDurationToMills*() \* 3),
+    *CREDIT\_CARD*(1000, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 2.5)),
+    *CURRENCY\_EXCHANGE*(100, (int) (WorkingDay.*getHalfAnHourDurationToMills*() \* 1.3));
 
-`    `private final int price;
-`    `private final int duration;
+    private final int price;
+    private final int duration;
 
-`    `ServiceType(int price, int duration) {
-`        `this.price = price;
-`        `this.duration = duration;
-`    `}
-`    `public int getPrice() {
-`        `return price;
-`    `}
-`    `public int getDuration() {
-`        `return duration;
-`    `}
+    ServiceType(int price, int duration) {
+        this.price = price;
+        this.duration = duration;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public int getDuration() {
+        return duration;
+    }
 }
 ```
 Класс WorkingDay:
 ```java
 import java.time.LocalTime;
 public class WorkingDay extends Thread{
-`    `// 30 минут симуляции = 1 секунда
-`    `private static final int *halfAnHourDurationToMills* = 1000;
-`    `private static LocalTime *currentTime*;
-`    `@Override
-`    `public void run() {
-`        `*currentTime* = LocalTime.*of*(9,0);
-`        `while(*currentTime*.isBefore(LocalTime.*of*(18,0))) {
-`            `try {
-`                `Thread.*sleep*(*halfAnHourDurationToMills*);
-`                `*currentTime* = *currentTime*.plusMinutes(30);
-`            `} catch (InterruptedException e) {
-`                `throw new RuntimeException(e);
-`            `}
+    // 30 минут симуляции = 1 секунда
+    private static final int *halfAnHourDurationToMills* = 1000;
+    private static LocalTime *currentTime*;
+    @Override
+    public void run() {
+        *currentTime* = LocalTime.*of*(9,0);
+        while(*currentTime*.isBefore(LocalTime.*of*(18,0))) {
+            try {
+                Thread.*sleep*(*halfAnHourDurationToMills*);
+                *currentTime* = *currentTime*.plusMinutes(30);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
-`        `}
-`        `System.*out*.println("Рабочий день закончен!");
-`    `}
-`    `public LocalTime getCurrentTime() {
-`        `return *currentTime*;
-`    `}
+        }
+        System.*out*.println("Рабочий день закончен!");
+    }
+    public LocalTime getCurrentTime() {
+        return *currentTime*;
+    }
 
-`    `public static int getHalfAnHourDurationToMills() {
-`        `return *halfAnHourDurationToMills*;
-`    `}
+    public static int getHalfAnHourDurationToMills() {
+        return *halfAnHourDurationToMills*;
+    }
 }
 ```
